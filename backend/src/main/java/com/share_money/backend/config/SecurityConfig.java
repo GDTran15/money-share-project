@@ -1,0 +1,80 @@
+package com.share_money.backend.config;
+
+
+import com.share_money.backend.model.JwtFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.List;
+
+@Configuration
+@RequiredArgsConstructor
+@EnableMethodSecurity(prePostEnabled = true)
+public class SecurityConfig {
+
+    private final UserDetailsService userDetailsService;
+    private final JwtFilter jwtFilter;
+//for delpoyment
+    //@Value("${frontend.url}")
+    //private String frontendURL;
+
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        http.csrf(customizer -> customizer.disable())
+                .cors(c -> {
+                    CorsConfigurationSource source = request -> {
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+                        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+                        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+                        configuration.setAllowCredentials(true);
+                        return configuration;
+                    };
+                    c.configurationSource(source);
+                })
+                .authorizeHttpRequests(request -> request
+                        // Public endpoints, allow access without JWT
+                        .requestMatchers(
+                                "/login",
+                                "/register"
+                                  ).permitAll()
+
+                        // Authenticated (JWT)
+//                        .requestMatchers("/vote/**").hasAnyRole("USER", "ADMIN")
+//                        .requestMatchers("/prediction/**").hasAnyRole("USER", "ADMIN")
+//                        .requestMatchers("/nominee/*").hasRole("ADMIN")
+//                        .requestMatchers("/artists/*").hasRole("ADMIN")
+//                        .requestMatchers("/songs/*").hasRole("ADMIN")
+//                        .requestMatchers("/categories/*").hasRole("ADMIN")
+//                        .requestMatchers("/albums/*").hasRole("ADMIN")
+
+
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
+        authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+        return new ProviderManager(authenticationProvider);
+    }
+}
