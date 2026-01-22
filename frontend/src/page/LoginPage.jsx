@@ -24,6 +24,7 @@ export default function LoginPage(){
             setUsername(""); setPassword("");
             console.log(res)
             localStorage.setItem("token",res.data.token);
+            localStorage.setItem("username",res.data.username)
             navigate("/home");
         } catch (error){
             console.log(error)

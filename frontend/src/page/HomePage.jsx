@@ -7,6 +7,7 @@ import { Nav,Container,Row,Button } from 'react-bootstrap';
 
 export default function HomePage(){
     const [currentTab,setCurrentTab] = useState("dashboard");
+    const username = localStorage.getItem("username");
     let mainContent;
 
     switch(currentTab){
@@ -31,7 +32,7 @@ export default function HomePage(){
                
                     <h3>Split That Thing</h3> 
                     <div className='d-flex align-items-center gap-2'>
-                        <p className='mb-0'>Welcome, duong</p>
+                        <p className='mb-0'>Welcome, {username}</p>
                      <Button size='sm' >Logout</Button>
                     </div>  
                     

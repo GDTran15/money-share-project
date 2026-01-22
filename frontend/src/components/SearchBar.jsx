@@ -1,22 +1,32 @@
-import styles from '../css/searchbar.module.css';
+import styles from "../css/searchbar.module.css";
 
-export default function SearchBar({onChangeHandle,resultList, inputValue, setUsername, setResultList, setIsSelected}){
-    console.log(resultList)
-    return(
-        <>
-        <div className={styles.searchBarWrapper}>
-            <input className={styles.searchBar}  type="text" placeholder="Type username to search" onChange={onChangeHandle} 
-            value={inputValue} />
-        </div>
+export default function SearchBar({value,results,onChange, onSelect,onClick
+}) {
+  return (
+    <>
+      <div className={styles.searchBarWrapper}>
+        <input
+          className={styles.searchBar}
+          type="text"
+          onClick={onClick}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      </div>
+
+      {results.length > 0 && (
         <div className={styles.searchResultList}>
-            {resultList.map(result    =>(
-                <div onClick={() =>{setUsername(result.username);setResultList([]);
-                        setIsSelected(true);
-                }} className={styles.result} key={result.userId}>
-                    {result.username} 
-                    </div>
-            ))}
+          {results.map((item) => (
+            <div
+              key={item.userId}
+              className={styles.result}
+              onClick={() => onSelect(item)}
+            >
+              {item.username}
+            </div>
+          ))}
         </div>
-        </>
-    )
+      )}
+    </>
+  );
 }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Nav,Container,Row,Button,Col } from 'react-bootstrap';
 
-export default function RequestComponent({username,friendRequestId,handleUserResponse}){
+export default function RequestComponent({username,friendRequestId,handleUserResponse,type}){
     const token = localStorage.getItem("token");
 
     const responseFriendRequest = async (status) => {
@@ -23,15 +23,21 @@ export default function RequestComponent({username,friendRequestId,handleUserRes
     } 
     return(
         <>
+        
             
                 <Col lg="12" className='d-flex justify-content-between p-2 border-1 border-black'>
                     <div>
                         <h3>{username}</h3>
                     </div>
-                    <div className=''>
+
+                    {type === "received" ? (<div className=''>
+                        
                         <Button size='sm' variant='success' onClick={() => responseFriendRequest("ACCEPTED")}>Accept</Button>
                         <Button size='sm'variant='danger'onClick={() => responseFriendRequest("DECLINED")}>Decline</Button>
-                    </div>
+                    </div>) : (<>
+                    <Button size='sm' disabled variant='secondary'>Pending</Button>
+                    </>) }
+                    
                 </Col>
                            
         </>

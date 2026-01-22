@@ -5,10 +5,12 @@
     import axios from "axios";
 import { data } from "react-router-dom";
 import FriendRequestComponent from "../components/FriendRequestComponent";
+import FriendList from "../components/FriendList";
 
 
     export default function FriendPage(){
         const [showAddFriend,setShowAddFriend] = useState(false);
+        const [addFriendError,setAddFriendError] = useState(""); //need add nin the future
         const [showRequest,setShowRequest] = useState(false);
         const [username,setUsername] = useState("");
         const [error,setError] = useState("");
@@ -18,8 +20,9 @@ import FriendRequestComponent from "../components/FriendRequestComponent";
         const [inComingRequest,setIncomingRequest] = useState([]);
         const [numberOfInComeRequest,setNumberOfInComeRequest] = useState(0);
         
-        const addFriend = async (e) => {
+    const addFriend = async (e) => {
             e.preventDefault();
+            setAddFriendError("");
             try {
                 const response = await axios.post("http://localhost:8080/friend-request", null, {
                     params: {username},
@@ -27,11 +30,15 @@ import FriendRequestComponent from "../components/FriendRequestComponent";
                 "Authorization": `Bearer ${token}`
             }
                 });
-                console.log(response);
+               
             } catch (error) {
-                console.log(error)
+                
+                alert(error.response.data);
             }
         }
+    
+
+
 
     const fetchIncomingFriendRequest = async () => {
         try {
@@ -102,6 +109,7 @@ import FriendRequestComponent from "../components/FriendRequestComponent";
 
         return (
             <>
+        <header>
             <Container>
                 <Row>
                     <Col className="d-flex align-items-center justify-content-between">
@@ -153,7 +161,15 @@ import FriendRequestComponent from "../components/FriendRequestComponent";
                     <Form onSubmit={addFriend}>
                         <Form.Group className="mb-3">
                             <Form.Label>Username</Form.Label>
-                            <SearchBar setIsSelected={setIsSelected} setResultList={setResult} inputValue={username} setUsername={setUsername} onChangeHandle={(e) => {setUsername(e.target.value); setIsSelected(false);}} resultList={result}/>
+                            <SearchBar
+                              value={username}
+                                results={result}
+                                placeholder="Search username"
+                                onChange={(value) => setUsername(value)}
+                                onSelect={(user) => {
+                                    setUsername(user.username);
+                                    setResult([]);
+                                }}/>
                         </Form.Group>
                         
                         <div className="d-flex gap-2">
@@ -164,7 +180,10 @@ import FriendRequestComponent from "../components/FriendRequestComponent";
                     {error === "" ? "" : <p className="text-danger">*{error}</p>}
                 </ModalBody>
             </Modal>
-
+            </header>
+            <section>
+                <FriendList/>
+            </section>
             </>
         )
     }

@@ -13,6 +13,21 @@ export default function FriendRequestComponent({onHandle}){
     const [sentFetch,setSentFetch] = useState(false);
      const token = localStorage.getItem("token");
     
+     const fetchSentFriendRequest  = useCallback(async () => {
+        try {
+            const response = await axios.get("http://localhost:8080/friend-request/sent", {
+                headers:{
+                "Authorization": `Bearer ${token}`
+            }
+        });
+            console.log(response.data);
+            setSent(response.data);
+            setSentFetch(true);
+        } catch (error){
+            console.log(error)
+        }
+    },[])
+
 
      const fetchIncomingFriendRequest = useCallback(async () => {
         try {
@@ -51,7 +66,7 @@ export default function FriendRequestComponent({onHandle}){
                 </Nav.Item>
                 <Nav.Item>
                     <Nav.Link className={currentTab == "sent" ? style.navtabActive : "text-secondary fw-semibold"}
-                    onClick={() => setCurrentTab("sent")}
+                    onClick={() => { setCurrentTab("sent"),fetchSentFriendRequest();}}
                     >Sent</Nav.Link>
                 </Nav.Item>
             </Nav>
@@ -59,13 +74,17 @@ export default function FriendRequestComponent({onHandle}){
             </div>
             <Container>
                 <Row>
-                    {request.map((req) => (
+                    {currentTab === "received" ? (request.map((req) => (
                         <RequestComponent username={req.receiverName} key={req.friendRequestId} friendRequestId={req.friendRequestId}
-                        handleUserResponse={() => {setRequest(prev => prev.filter(r => r.friendRequestId !== req.friendRequestId)),
+                        handleUserResponse={() => {setRequest(prev => prev.filter(r => r.friendRequestId !== req.friendRequestId));
                             onHandle();
                         }}
+                        type={"received"}
                         />
-                    ))}
+                    ))) : (sent.map((s) => (
+                        <RequestComponent username={s.requesterName} key={s.friendRequestId} friendRequestId={s.friendRequestId} type={"sent"}/>
+                    )))}
+                    
                 </Row>
             </Container>
         
