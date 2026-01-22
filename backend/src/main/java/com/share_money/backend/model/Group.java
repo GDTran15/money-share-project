@@ -1,9 +1,7 @@
 package com.share_money.backend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,8 +11,10 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "groups")
+@Builder
 public class Group {
 
     @Id
@@ -26,6 +26,8 @@ public class Group {
     private Integer numberOfMembers;
 
     private GroupPurpose groupPurpose;
+    
+
 
     @OneToMany(mappedBy = "group")
     private Set<GroupMember> groupMembers = new HashSet<>();

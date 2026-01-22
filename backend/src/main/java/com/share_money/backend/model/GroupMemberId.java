@@ -2,10 +2,14 @@ package com.share_money.backend.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
 public class GroupMemberId {
 
     @Column(name = "group_id")

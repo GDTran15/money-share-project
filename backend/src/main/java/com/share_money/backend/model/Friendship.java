@@ -25,7 +25,7 @@ public class Friendship{
     private User requester;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("userId")
+    @MapsId("friendId")
     @JoinColumn(name = "friend_id")
     private User receiver;
 

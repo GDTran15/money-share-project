@@ -50,7 +50,7 @@ public class UserService {
 
         User user = userRepo.findByUsername(loginRequestDTO.username());
         String token = jwtService.generateToken(user,user.getUserId());
-        return new LoginResponseDTO(token);
+        return new LoginResponseDTO(token,user.getUsername());
 
     }
 
