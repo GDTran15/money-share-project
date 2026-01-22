@@ -46,8 +46,9 @@ public  class User implements UserDetails {
     @OneToMany(mappedBy = "shareOwner")
     private Set<ShareRequest> shareRequests = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    private Set<ShareRequestUser> shareRequestUsers = new HashSet<>();
+    @OneToMany(mappedBy = "shareReceiver")
+    private Set<ShareRequest> shareRequestsReceiver = new HashSet<>();
+
 
     @OneToMany(mappedBy = "sender")
     private Set<FriendRequest> requestSender = new HashSet<>();

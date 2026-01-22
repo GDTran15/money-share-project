@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -24,9 +26,13 @@ public class Expense {
 
     private ExpenseType expenseType;
 
+    private ExpenseShareTo expenseShareTo;
+
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
 
+    @OneToMany(mappedBy = "expense")
+    private Set<ShareRequest> shareRequests = new HashSet<>();
 
 }

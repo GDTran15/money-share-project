@@ -21,10 +21,23 @@ public class ShareRequest {
 
     private ShareRequestStatus shareRequestStatus;
 
+    private double amountToPay;
+
+    private ShareRequestAnswer shareRequestAnswer;
+
     @ManyToOne()
     @JoinColumn(name = "owner_id")
     private User shareOwner;
 
-    @OneToMany(mappedBy = "shareRequest")
-    private Set<ShareRequestUser> shareRequestUsers = new HashSet<ShareRequestUser>();
+    @ManyToOne()
+    @JoinColumn(name = "expense_receiver_id")
+    private User shareReceiver;
+
+
+    @ManyToOne()
+    @JoinColumn(name = "expense")
+    private Expense  expense;
+
+
+
 }
