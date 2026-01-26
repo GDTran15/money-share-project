@@ -15,6 +15,11 @@ public interface GroupMemberRepo extends JpaRepository<GroupMember, GroupMemberI
 
     List<GroupMember> findByMember(User member);
 
+    @Query("""
+    select gm from GroupMember gm where gm.group.groupId = :groupId
+""")
+    List<GroupMember> findByGroupId(@Param("groupId") Long groupId);
+
 
 
 
