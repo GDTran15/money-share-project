@@ -32,6 +32,8 @@ public class Expense {
 
     private ExpenseShareTo expenseShareTo;
 
+    private ExpenseStatus expenseStatus;
+
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;

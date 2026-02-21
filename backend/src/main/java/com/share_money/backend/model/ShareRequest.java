@@ -21,7 +21,7 @@ public class ShareRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long shareRequestId;
 
-    private ShareRequestStatus shareRequestStatus;
+
 
     private double amountToPay;
 
@@ -38,7 +38,7 @@ public class ShareRequest {
 
     @ManyToOne()
     @JoinColumn(name = "expense")
-    private Expense  expense;
+    private Expense expense;
 
 
 

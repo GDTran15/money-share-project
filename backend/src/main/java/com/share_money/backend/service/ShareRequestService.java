@@ -1,5 +1,6 @@
 package com.share_money.backend.service;
 
+import com.share_money.backend.dto.share_request.GetOweShareRequest;
 import com.share_money.backend.model.*;
 import com.share_money.backend.repo.GroupMemberRepo;
 import com.share_money.backend.repo.ShareRequestRepo;
@@ -26,7 +27,6 @@ public class ShareRequestService {
         if (expenseShareTo == ExpenseShareTo.FRIEND) {
             ShareRequest shareRequest = ShareRequest.builder()
                     .shareRequestAnswer(ShareRequestAnswer.IN_PROGRESS)
-                    .shareRequestStatus(ShareRequestStatus.IN_PROGRESS)
                     .shareOwner(user)
                     .shareReceiver(userRepo.findUserByUserId(targetId))
                     .amountToPay(amount/2)
@@ -43,7 +43,6 @@ public class ShareRequestService {
                 }
                 ShareRequest shareRequest = ShareRequest.builder()
                         .shareRequestAnswer(ShareRequestAnswer.IN_PROGRESS)
-                        .shareRequestStatus(ShareRequestStatus.IN_PROGRESS)
                         .shareOwner(user)
                         .shareReceiver(userRepo.findUserByUserId(groupMemberId))
                         .amountToPay(amount/groupMembersIds.size())
@@ -52,5 +51,9 @@ public class ShareRequestService {
                 shareRequestRepo.save(shareRequest);
             }
         }
+    }
+
+    public List<GetOweShareRequest> getOweShareRequest(User user) {
+        return shareRequestRepo.getOweShareRequest(user.getUserId());
     }
 }

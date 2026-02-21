@@ -2,6 +2,7 @@ package com.share_money.backend.service;
 
 import com.share_money.backend.dto.group.CreateGroupRequestDTO;
 import com.share_money.backend.dto.group.GetGroupResponse;
+import com.share_money.backend.dto.group.GetGroupResponseWithSearch;
 import com.share_money.backend.model.Group;
 import com.share_money.backend.model.GroupMember;
 import com.share_money.backend.model.MemberRole;
@@ -10,6 +11,8 @@ import com.share_money.backend.repo.GroupMemberRepo;
 import com.share_money.backend.repo.GroupRepo;
 import com.share_money.backend.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,4 +62,7 @@ public class GroupService {
                 ).toList();
 
     }
+
+
+
 }
