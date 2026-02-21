@@ -163,6 +163,8 @@ import FriendList from "../components/FriendList";
                             <Form.Label>Username</Form.Label>
                             <SearchBar
                               value={username}
+                              itemKey={(item) => item.userId}
+                              itemLabel={(item) => item.username}
                                 results={result}
                                 placeholder="Search username"
                                 onChange={(value) => setUsername(value)}

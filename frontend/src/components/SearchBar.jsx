@@ -1,6 +1,6 @@
 import styles from "../css/searchbar.module.css";
 
-export default function SearchBar({value,results,onChange, onSelect,onClick
+export default function SearchBar({value,results,onChange, onSelect,onClick, itemKey, itemLabel
 }) {
   return (
     <>
@@ -11,6 +11,7 @@ export default function SearchBar({value,results,onChange, onSelect,onClick
           onClick={onClick}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+
         />
       </div>
 
@@ -18,11 +19,11 @@ export default function SearchBar({value,results,onChange, onSelect,onClick
         <div className={styles.searchResultList}>
           {results.map((item) => (
             <div
-              key={item.userId}
+              key={itemKey(item)}
               className={styles.result}
               onClick={() => onSelect(item)}
             >
-              {item.username}
+              {itemLabel(item)}
             </div>
           ))}
         </div>

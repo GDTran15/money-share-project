@@ -86,7 +86,7 @@ export default function GroupPage(){
                 }
             );
 
-            getGroupList();
+            getGroupList(); 
         } catch (error) {
             console.log(error);
         }
@@ -147,6 +147,8 @@ export default function GroupPage(){
                                         placeholder="Add group member"
                                         onChange={(value) => setSearchForFriend(value)}
                                         onClick={() => setStartSearch(true)}
+                                        itemKey={(item) => item.userId}
+                                        itemLabel={(item) => item.username}
                                         onSelect={(user) => {
                                             setGroupMember(prev => [...prev, user]);
                                             setGroupMemberId(prev => [...prev,user.userId])

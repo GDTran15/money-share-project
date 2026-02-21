@@ -4,6 +4,8 @@ import FriendPage from "./FriendPage";
 import GroupPage from "./GroupPage";
 import style from '../css/navnar.module.css';
 import { Nav,Container,Row,Button } from 'react-bootstrap';
+import ExpensePage from "./ExpensePage";
+import ShareRequestPage from "./ShareRequestPage";
 
 export default function HomePage(){
     const [currentTab,setCurrentTab] = useState("dashboard");
@@ -19,6 +21,12 @@ export default function HomePage(){
         break;
         case "group":
             mainContent = <GroupPage/>
+        break;
+        case "expense" :
+            mainContent = <ExpensePage/>
+        break;
+        case "share-request":
+            mainContent = <ShareRequestPage/>
         break;
 
     }
@@ -69,6 +77,13 @@ export default function HomePage(){
                     onClick={() => setCurrentTab("expense")}
                     >
                     Expense
+                    </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link className={currentTab == "share-request" ? style.navtabActive : "text-secondary fw-semibold"}
+                    onClick={() => setCurrentTab("share-request")}
+                    >
+                    Share-Request
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
